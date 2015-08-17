@@ -1,0 +1,6 @@
+#!/bin/bash
+apt-get update
+apt-get install python-pip python-dev build-essential -y 
+pip install jinja2 pydns 
+hooks/install-real
+ 

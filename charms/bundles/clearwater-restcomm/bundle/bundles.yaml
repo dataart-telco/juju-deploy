@@ -1,0 +1,126 @@
+clearwater: 
+  services: 
+    "clearwater-bono": 
+      charm: "cs:~matt-williams-x/precise/clearwater-bono"
+      num_units: 1
+      constraints: "arch=amd64"
+      options: 
+        zone: "clearwater.local"
+      expose: true
+      annotations: 
+        "gui-x": "400"
+        "gui-y": "900"
+    "clearwater-sprout": 
+      charm: "cs:~matt-williams-x/precise/clearwater-sprout"
+      num_units: 1
+      constraints: "arch=amd64"
+      options: 
+        zone: "clearwater.local"
+      annotations: 
+        "gui-x": "400"
+        "gui-y": "600"
+    "clearwater-ralf": 
+      charm: "cs:~matt-williams-x/precise/clearwater-ralf"
+      num_units: 1
+      constraints: "arch=amd64"
+      options: 
+        zone: "clearwater.local"
+      annotations: 
+        "gui-x": "800"
+        "gui-y": "750"
+    "clearwater-homestead": 
+      charm: "cs:~matt-williams-x/precise/clearwater-homestead"
+      num_units: 1
+      constraints: "arch=amd64"
+      options: 
+        zone: "clearwater.local"
+      annotations: 
+        "gui-x": "200"
+        "gui-y": "300"
+    "clearwater-homer": 
+      charm: "cs:~matt-williams-x/precise/clearwater-homer"
+      num_units: 1
+      constraints: "arch=amd64"
+      options: 
+        zone: "clearwater.local"
+      annotations: 
+        "gui-x": "600"
+        "gui-y": "300"
+    "clearwater-ellis": 
+      charm: "cs:~matt-williams-x/precise/clearwater-ellis"
+      num_units: 1
+      constraints: "arch=amd64"
+      options: 
+        base_number: "1234567000"
+        number_count: 1000
+        signup_key: "signup"
+        zone: "clearwater.local"
+      expose: true
+      annotations: 
+        "gui-x": "400"
+        "gui-y": "0"
+    dns: 
+      charm: "cs:~lazypower/precise/dns-3"
+      num_units: 1
+      options: 
+        domain: "clearwater.local"
+      annotations: 
+        "gui-x": "1000"
+        "gui-y": "450"
+    "telscale-load-balancer": 
+      charm: "cs:~gvagenas-g/trusty/telscale-load-balancer"
+      num_units: 1
+      expose: true
+      annotations: 
+        "gui-x": "-200"
+        "gui-y": "300"
+    "telscale-restcomm": 
+      charm: "cs:~gvagenas-g/trusty/telscale-restcomm"
+      num_units: 1
+      expose: true
+      annotations: 
+        "gui-x": "-600"
+        "gui-y": "300"
+    mysql: 
+      charm: "cs:precise/mysql"
+      num_units: 1
+      expose: true
+      annotations: 
+        "gui-x": "-1000"
+        "gui-y": "300"
+  relations: 
+    - - "clearwater-bono:cscf"
+      - "clearwater-sprout:pcscf"
+    - - "clearwater-bono:ralf-ctf"
+      - "clearwater-ralf:ralf-cscf"
+    - - "clearwater-sprout:ralf-ctf"
+      - "clearwater-ralf:ralf-cscf"
+    - - "clearwater-homestead:homestead-cscf"
+      - "clearwater-sprout:homestead-hss"
+    - - "clearwater-homer:xdms-user"
+      - "clearwater-sprout:xdms"
+    - - "clearwater-ellis:homestead-prov"
+      - "clearwater-homestead:homestead-prov-user"
+    - - "clearwater-ellis:xdms"
+      - "clearwater-homer:xdms-user"
+    - - "clearwater-ellis:programmable-multiple"
+      - "dns:programmable-multiple"
+    - - "clearwater-homer:programmable-multiple"
+      - "dns:programmable-multiple"
+    - - "clearwater-bono:programmable-multiple"
+      - "dns:programmable-multiple"
+    - - "clearwater-sprout:programmable-multiple"
+      - "dns:programmable-multiple"
+    - - "clearwater-ralf:programmable-multiple"
+      - "dns:programmable-multiple"
+    - - "clearwater-homestead:programmable-multiple"
+      - "dns:programmable-multiple"
+    - - "telscale-restcomm:load-balancer"
+      - "telscale-load-balancer:load-balancer"
+    - - "telscale-restcomm:database"
+      - "mysql:db"
+    - - "telscale-load-balancer:clearwater-ellis"
+      - "clearwater-ellis:as-catalog"
+    - - "clearwater-sprout:as"
+      - "telscale-restcomm:cscf"
+  series: precise

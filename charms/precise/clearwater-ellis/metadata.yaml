@@ -1,0 +1,17 @@
+name: clearwater-ellis
+summary: Ellis charm for Project Clearwater
+maintainer: Project Clearwater Maintainers <maintainers@projectclearwater.org>
+description: Ellis charm for Project Clearwater
+categories:
+  - misc
+subordinate: false
+requires:
+  programmable-multiple:
+    interface: dns-multi
+  homestead-prov:
+    interface: homestead-prov-interface
+  xdms:
+    interface: 3GPP-Ut
+provides:
+  as-catalog:
+    interface: as-register

@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+
+# Set our DNS requirements
+TTL=300
+id=$(cut -d/ -f2 <<< $JUJU_UNIT_NAME)
+ip=$(unit-get private-address)
+relation-set domain=$(config-get zone)
+relation-set resources='homer '$TTL' IN A '$ip'
+homer-'$id' '$TTL' IN A '$ip
+
+# Update our DNS server
+if [ "$(relation-get private-address)" != "" ]
+then
+  echo nameserver $(relation-get private-address) > /etc/dnsmasq.resolv.conf
+  grep -v ^RESOLV_CONF= /etc/default/dnsmasq > /tmp/dnsmasq.$$
+  mv /tmp/dnsmasq.$$ /etc/default/dnsmasq
+  echo RESOLV_CONF=/etc/dnsmasq.resolv.conf >> /etc/default/dnsmasq
+  service dnsmasq restart
+fi
+
+# Update Clearwater configuration and restart
+$CHARM_DIR/lib/config_script programmable-multiple
+$CHARM_DIR/lib/restart

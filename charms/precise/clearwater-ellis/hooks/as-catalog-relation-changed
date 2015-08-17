@@ -1,0 +1,32 @@
+#!/bin/bash
+set -e
+
+AS_JSON=/usr/share/clearwater/ellis/web-content/js/app-servers.json
+TMP_AS_JSON=/tmp/app-servers.json.$$
+
+id=$(cut -d/ -f2 <<< $JUJU_REMOTE_UNIT)
+as_name=$(relation-get as-name)
+as_uri=$(relation-get as-uri)
+
+# If an AS name was specified, create/update a file for the AS.  Otherwise delete it.
+if [ "$as_name" != "" ] ; then
+  cat > $AS_JSON.$id <<EOF
+  "$as_name": "<InitialFilterCriteria><Priority>1</Priority><TriggerPoint><ConditionTypeCNF /><SPT><Group>0</Group><Method>REGISTER</Method></SPT><SPT><Group>1</Group><Method>INVITE</Method></SPT><SPT><Group>2</Group><Method>MESSAGE</Method></SPT></TriggerPoint><ApplicationServer><ServerName>$as_uri</ServerName><DefaultHandling>0</DefaultHandling></ApplicationServer></InitialFilterCriteria>",
+EOF
+else
+  rm -f $AS_JSON.$id
+fi
+
+{
+  # Open the JSON body
+  echo {
+  # Concatenate all the AS files,
+  # remove any duplicates (on the first field) and then
+  # remove a comma from the end of the last line.
+  cat $AS_JSON.* 2>/dev/null |
+  sort -k 1,1 -u |
+  sed -e '$ s/,$//'
+  # Close the JSON body
+  echo }
+} > $TMP_AS_JSON
+mv $TMP_AS_JSON $AS_JSON

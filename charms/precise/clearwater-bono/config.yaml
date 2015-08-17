@@ -1,0 +1,21 @@
+options:
+  zone:
+    default: "clearwater.local"
+    description: The DNS root zone for this service
+    type: string
+  sas:
+    default: ""
+    description: The location of the SAS server
+    type: string
+  turn_workaround: 
+    default: ""
+    description: TURN workaround password, used by faulty WebRTC clients
+    type: string
+  trusted_peers:
+    default: ""
+    description: Comma-separated list of IP addresses of trusted peers
+    type: string
+  repo:
+    default: http://repo.cw-ngv.com/juju-clearwater-1/
+    description: The location of the repo server
+    type: string

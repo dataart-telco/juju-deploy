@@ -1,0 +1,17 @@
+options:
+  domain:
+    type: string
+    default: "example.com"
+    description: "Base Canonical Domain name for environment"
+  provider:
+    type: string
+    default: "bind"
+    description: "Used to specify the provider to deploy/consume for DNS management"
+  offline:
+    type: boolean
+    default: false
+    description: "Specify offline env configuration, and install from local filepath instead of via apt"
+  ns-parents:
+    type: string
+    default: "none"
+    description: "Specify a couple of dns names corresponding to your authoritative dns parents. They must be up in the domain you chose this service acting on your delegated zone"

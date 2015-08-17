@@ -1,0 +1,22 @@
+{
+  "id": "$LOCAL_IP",
+  "name": "$LOCAL_IP",
+  "chef_environment": "_default",
+  "role": "ellis",
+  "roles": ["clearwater-infrastructure", "ellis"$CLUSTERED],
+  "cloud": {
+    "local_ipv4": "$LOCAL_IP"
+  },
+  "clearwater": {
+    "index": $MACHINE_ID,
+    "repo_server": "$REPO",
+    "number_start": 0,
+    "number_count": 0,
+    "pstn_number_start": 0,
+    "pstn_number_count": 0,
+    "repo_server": "$REPO"
+  },
+  "run_list": [
+    "role[ellis]"$CLUSTER
+  ]$TAG
+}

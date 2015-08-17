@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+# Restart clearwater-infrastructure, and stop homer (to be restarted by monit)
+service clearwater-infrastructure restart
+service homer stop

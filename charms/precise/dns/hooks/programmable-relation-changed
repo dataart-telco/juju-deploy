@@ -1,0 +1,50 @@
+#!/usr/bin/python
+import os
+import sys
+# Add charmhelpers to the system path.
+try:
+    sys.path.insert(0, os.path.abspath(os.path.join(os.environ['CHARM_DIR'],
+                                                    'lib')))
+    sys.path.insert(0, os.path.abspath(os.path.join(os.environ['CHARM_DIR'],
+                                                    'contrib')))
+except:
+    sys.path.insert(0, os.path.abspath(os.path.join('..', 'lib')))
+    sys.path.insert(0, os.path.abspath(os.path.join('..', 'contrib')))
+
+
+from bind.provider import BindProvider
+
+from charmhelpers.core.hookenv import (
+    config,
+    unit_get,
+    relation_get,
+    relation_set,
+    relation_id,
+)
+from common import resolve_hostname_to_ip as getip
+
+
+class ProgrammableChanged(object):
+
+    def __init__(self):
+        self.config = config()
+        relid = relation_id()
+        relation_set(relid,
+                     {'public-address': getip(unit_get('public-address'))})
+        self.add_resource()
+
+    def add_resource(self):
+        domain = relation_get('domain')
+        alias = relation_get('alias')
+        addr = relation_get('addr')
+        #off#rr = relation_get('rr').upper()
+
+        parsed = {'domain': domain, 'alias': alias, 'addr': addr}
+
+        if self.config['provider'] == 'bind':
+            bp = BindProvider()
+            bp.add_record(parsed, domain)
+
+
+if __name__ == '__main__':
+    c = ProgrammableChanged()

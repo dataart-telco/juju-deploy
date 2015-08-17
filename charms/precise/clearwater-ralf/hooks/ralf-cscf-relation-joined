@@ -1,0 +1,4 @@
+#!/bin/bash
+set -e
+
+relation-set public-address=ralf.$(config-get zone)

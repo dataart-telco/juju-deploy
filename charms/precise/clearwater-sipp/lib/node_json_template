@@ -1,0 +1,17 @@
+{
+  "id": "$LOCAL_IP",
+  "name": "$LOCAL_IP",
+  "chef_environment": "_default",
+  "role": "sipp",
+  "roles": ["clearwater-infrastructure", "sipp"$CLUSTERED],
+  "cloud": {
+    "local_ipv4": "$LOCAL_IP"
+  },
+  "clearwater": {
+    "index": $MACHINE_ID,
+    "repo_server": "$REPO"
+  },
+  "run_list": [
+    "role[sipp]"$CLUSTER
+  ]$TAG
+}

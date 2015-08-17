@@ -1,0 +1,42 @@
+#!/bin/bash
+
+set -e
+
+# Defaults
+sprout_hostname=sprout.$(config-get zone)
+hs_hostname=homestead.$(config-get zone):8888
+hs_provisioning_hostname=homestead.$(config-get zone):8889
+xdms_hostname=
+ralf_hostname=
+sas_server=
+enum_server=
+
+# Import existing configuration
+[ ! -f /etc/clearwater/config ] || . /etc/clearwater/config
+
+# Apply new configuration
+home_domain=$(config-get zone)
+local_ip=$(unit-get private-address)
+public_ip=$(unit-get public-address)
+public_hostname=sipp-$(cut -d/ -f2 <<< $JUJU_UNIT_NAME).$(config-get zone)
+node_idx=$(($(cut -d/ -f2 <<< $JUJU_UNIT_NAME) + 1))
+
+# Write configuration back
+mkdir -p /etc/clearwater
+cat >/etc/clearwater/config <<EOF
+# Deployment definitions
+home_domain=$home_domain
+sprout_hostname=$sprout_hostname
+hs_hostname=$hs_hostname
+hs_provisioning_hostname=$hs_provisioning_hostname
+xdms_hostname=$xdms_hostname
+ralf_hostname=$ralf_hostname
+sas_server=$sas_server
+enum_server=$enum_server
+node_idx=$node_idx
+
+# Local IP configuration
+local_ip=$local_ip
+public_ip=$public_ip
+public_hostname=$public_hostname
+EOF

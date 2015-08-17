@@ -1,0 +1,22 @@
+acl "trusted" {
+                localhost;
+                localnets;
+		any;
+        };
+  
+options {
+	directory "/var/cache/bind";
+
+    forwarders {
+	{{ forwarder }} ;
+	8.8.8.8 ;
+	};
+	dnssec-enable yes;
+	dnssec-validation yes;
+	auth-nxdomain no;    # conform to RFC1035
+	listen-on-v6 { any; };
+	allow-query { any; };
+	allow-recursion { trusted; };
+	allow-query-cache { trusted; };
+
+};

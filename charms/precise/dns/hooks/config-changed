@@ -1,0 +1,33 @@
+#!/usr/bin/python
+import os
+import sys
+# Add charmhelpers to the system path.
+try:
+    sys.path.insert(0, os.path.abspath(os.path.join(os.environ['CHARM_DIR'],
+                                                    'lib')))
+    sys.path.insert(0, os.path.abspath(os.path.join(os.environ['CHARM_DIR'],
+                                                    'contrib')))
+
+except:
+    sys.path.insert(0, os.path.abspath(os.path.join('..', 'lib')))
+    sys.path.insert(0, os.path.abspath(os.path.join('..', 'contrib')))
+
+
+from charmhelpers.core.hookenv import config
+from common import sanity_check
+from bind.provider import BindProvider
+
+
+class ConfigChanged(object):
+
+    def __init__(self):
+        if not sanity_check():
+            return 0
+        self.config = config()
+        if self.config['provider'] == 'bind':
+            bp = BindProvider()
+            bp.config_changed(self.config['domain'])
+
+
+if __name__ == '__main__':
+    c = ConfigChanged()

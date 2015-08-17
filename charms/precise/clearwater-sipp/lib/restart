@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+
+service clearwater-infrastructure restart
+service clearwater-sip-stress restart

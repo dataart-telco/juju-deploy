@@ -1,0 +1,17 @@
+{
+  "id": "$LOCAL_IP",
+  "name": "$LOCAL_IP",
+  "chef_environment": "_default",
+  "role": "ralf",
+  "roles": ["clearwater-infrastructure", "ralf"$CLUSTERED],
+  "cloud": {
+    "local_ipv4": "$LOCAL_IP"
+  },
+  "clearwater": {
+    "index": $MACHINE_ID,
+    "repo_server": "$REPO"
+  },
+  "run_list": [
+    "role[ralf]"$CLUSTER
+  ]
+}

@@ -1,0 +1,12 @@
+name: clearwater-sipp
+summary: SIPp charm for Project Clearwater
+maintainer: Project Clearwater Maintainers <maintainers@projectclearwater.org>
+description: SIPp charm for Project Clearwater
+tags:
+  - misc
+subordinate: false
+requires:
+  pcscf:
+    interface: 3GPP-Gm
+  programmable-multiple:
+    interface: dns-multi
