@@ -12,5 +12,4 @@ export JUJU_REPOSITORY=$PWD/charms
 
 #if in need for more power#
 juju set-constraints 'instance-type=m3.medium'
-juju-deployer -c clearwater-restcomm.yaml -c bundle-config.yaml  clearwater
-#juju-deployer -c kubernetes-bundle.yaml
+juju-deployer -c kubernetes-bundle-simple.yaml
