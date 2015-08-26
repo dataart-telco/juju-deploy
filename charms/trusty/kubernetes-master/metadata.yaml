@@ -14,10 +14,14 @@ provides:
     interface: kubernetes-client
   minions-api:
     interface: kubernetes-api
+  haproxy:
+    interface: http
 requires:
   etcd:
     interface: etcd
   network:
     interface: overlay-network
   telscale-restcomm:
+    interface: http
+  loadbalancer:
     interface: http

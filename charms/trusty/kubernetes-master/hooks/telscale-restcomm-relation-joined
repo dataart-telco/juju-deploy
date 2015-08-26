@@ -10,5 +10,5 @@ if [ -z "$server_address" ]; then
   exit 0
 fi
 
-
+#sed -i 's/52\.0\.167\.47/$server_address/g'
 # If you've gotten this far, you have a $server_address, configure as you see fit
