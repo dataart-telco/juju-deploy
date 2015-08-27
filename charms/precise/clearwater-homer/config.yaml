@@ -1,8 +1,0 @@
-options:
-  zone:
-    description: The DNS root zone for this service
-    type: string
-  repo:
-    default: http://repo.cw-ngv.com/juju-clearwater-1/
-    description: The location of the repo server
-    type: string

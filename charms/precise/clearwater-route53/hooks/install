@@ -1,8 +1,0 @@
-#!/bin/bash
-
-apt-get install -y ruby1.9.3 build-essential libxslt1-dev zlib1g-dev
-gem install aws-sdk-v1 --no-ri --no-rdoc
-
-ruby lib/clean.rb --access-key `config-get access_key` \
-                  --secret-key `config-get secret_key` \
-                  --zone `config-get zone`

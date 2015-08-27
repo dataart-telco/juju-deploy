@@ -63,4 +63,22 @@ echo "Configured JVM for RestComm: $RESTCOMM_OPTS"
 #                 "java_args restcomm_root restcomm_args"
 #install --mode=644 --owner=root --group=root files/restcomm.conf /etc/init/
 
+open-port 22/tcp
+open-port 80/tcp
+open-port 443/tcp
+
+#pen-port 8080/tcp
+open-port 5080/udp
+open-port 64535-65535/udp
+
+open-port 8080/TCP
+open-port 5080/TCP
+open-port 5082/TCP
+open-port 5080/UDP
+open-port 2000/TCP 
+
 juju-log "RestComm installed"
+
+
+
+

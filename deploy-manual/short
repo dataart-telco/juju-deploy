@@ -1,0 +1,198 @@
+environment: TADSummit.demo
+machines:
+  "0":
+    agent-state: started
+    agent-version: 1.24.5
+    dns-name: 52.21.207.100
+    instance-id: i-122a49b9
+    instance-state: running
+    series: trusty
+    hardware: arch=amd64 cpu-cores=1 cpu-power=100 mem=1740M root-disk=8192M availability-zone=us-east-1a
+    state-server-member-status: has-vote
+  "1":
+    agent-state: started
+    agent-version: 1.24.5
+    dns-name: 52.21.132.158
+    instance-id: i-f4edb826
+    instance-state: running
+    series: trusty
+    hardware: arch=amd64 cpu-cores=1 cpu-power=300 mem=3840M root-disk=8192M availability-zone=us-east-1b
+  "2":
+    agent-state: started
+    agent-version: 1.24.5
+    dns-name: 52.21.201.0
+    instance-id: i-57e2b785
+    instance-state: running
+    series: trusty
+    hardware: arch=amd64 cpu-cores=1 cpu-power=300 mem=3840M root-disk=8192M availability-zone=us-east-1b
+  "3":
+    agent-state: started
+    agent-version: 1.24.5
+    dns-name: 52.6.48.220
+    instance-id: i-7dedb8af
+    instance-state: running
+    series: trusty
+    hardware: arch=amd64 cpu-cores=1 cpu-power=300 mem=3840M root-disk=8192M availability-zone=us-east-1b
+services:
+  docker:
+    charm: cs:~kubernetes/trusty/docker-0
+    exposed: false
+    service-status:
+      current: terminated
+      since: 21 Aug 2015 14:48:47Z
+    relations:
+      juju-info:
+      - flannel-docker
+      - kubernetes
+      network:
+      - flannel-docker
+    units:
+      docker/0:
+        workload-status:
+          current: unknown
+          since: 21 Aug 2015 14:34:43Z
+        agent-status:
+          current: idle
+          since: 21 Aug 2015 14:38:02Z
+          version: 1.24.5
+        agent-state: started
+        agent-version: 1.24.5
+        machine: "2"
+        public-address: 52.21.201.0
+        subordinates:
+          flannel-docker/0:
+            workload-status:
+              current: unknown
+              since: 21 Aug 2015 14:36:49Z
+            agent-status:
+              current: idle
+              since: 21 Aug 2015 14:48:50Z
+              version: 1.24.5
+            agent-state: started
+            agent-version: 1.24.5
+            upgrading-from: cs:~kubernetes/trusty/flannel-docker-2
+            public-address: 52.21.201.0
+          kubernetes/1:
+            workload-status:
+              current: unknown
+              since: 21 Aug 2015 14:37:08Z
+            agent-status:
+              current: idle
+              since: 21 Aug 2015 14:37:29Z
+              version: 1.24.5
+            agent-state: started
+            agent-version: 1.24.5
+            upgrading-from: cs:~kubernetes/trusty/kubernetes-6
+            public-address: 52.21.201.0
+      docker/1:
+        workload-status:
+          current: terminated
+          since: 21 Aug 2015 14:48:47Z
+        agent-status:
+          current: executing
+          message: running stop hook
+          since: 21 Aug 2015 14:48:42Z
+          version: 1.24.5
+        agent-state: stopped
+        agent-version: 1.24.5
+        life: dying
+        machine: "2"
+        public-address: 52.21.201.0
+        subordinates:
+          kubernetes/0:
+            workload-status:
+              current: error
+              message: 'hook failed: "install"'
+              since: 21 Aug 2015 14:37:20Z
+            agent-status:
+              current: idle
+              since: 21 Aug 2015 14:37:20Z
+              version: 1.24.5
+            agent-state: error
+            agent-state-info: 'hook failed: "install"'
+            agent-version: 1.24.5
+            life: dying
+            upgrading-from: cs:~kubernetes/trusty/kubernetes-6
+            public-address: 52.21.201.0
+  etcd:
+    charm: cs:trusty/etcd-0
+    exposed: false
+    service-status:
+      current: unknown
+      since: 21 Aug 2015 14:31:39Z
+    relations:
+      client:
+      - flannel-docker
+      - kubernetes
+      - kubernetes-master
+      cluster:
+      - etcd
+    units:
+      etcd/0:
+        workload-status:
+          current: unknown
+          since: 21 Aug 2015 14:31:39Z
+        agent-status:
+          current: idle
+          since: 21 Aug 2015 14:48:47Z
+          version: 1.24.5
+        agent-state: started
+        agent-version: 1.24.5
+        machine: "3"
+        open-ports:
+        - 4001/tcp
+        public-address: 52.6.48.220
+  flannel-docker:
+    charm: cs:~kubernetes/trusty/flannel-docker-2
+    exposed: false
+    service-status: {}
+    relations:
+      db:
+      - etcd
+      docker-host:
+      - docker
+      network:
+      - docker
+      overlay:
+      - flannel-docker
+    subordinate-to:
+    - docker
+  kubernetes:
+    charm: cs:~kubernetes/trusty/kubernetes-6
+    exposed: false
+    service-status: {}
+    relations:
+      api:
+      - kubernetes-master
+      docker-host:
+      - docker
+      etcd:
+      - etcd
+    subordinate-to:
+    - docker
+  kubernetes-master:
+    charm: local:trusty/kubernetes-master-0
+    exposed: false
+    service-status:
+      current: unknown
+      since: 21 Aug 2015 14:35:36Z
+    relations:
+      etcd:
+      - etcd
+      minions-api:
+      - kubernetes
+    units:
+      kubernetes-master/0:
+        workload-status:
+          current: unknown
+          since: 21 Aug 2015 14:35:36Z
+        agent-status:
+          current: idle
+          since: 21 Aug 2015 14:37:19Z
+          version: 1.24.5
+        agent-state: started
+        agent-version: 1.24.5
+        machine: "1"
+        open-ports:
+        - 8080/tcp
+        public-address: 52.21.132.158

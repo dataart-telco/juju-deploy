@@ -167,6 +167,9 @@ cd /var/lib/juju/agents/unit-telscale-restcomm-*/charm/lib/restcomm/autoconfig.d
 cp -arf ./*  $BASEDIR/autoconfig.d/
 cd $CURRENT_DIR
 
+echo "!!!Try to stop all"
+source lib/restcomm/stop-restcomm.sh
+
 source $BASEDIR/autoconfigure.sh
 
 # start restcomm in selected run mode
@@ -174,10 +177,12 @@ startRestcomm "$RUN_MODE" "$BIND_ADDRESS"
 startMediaServer
 juju-log "Start-Restcomm.sh STATIC ADDRESS: $STATIC_ADRESS"
 
-open-port 8080/TCP
-open-port 5080/TCP
-open-port 5082/TCP
-open-port 5080/UDP
-open-port 2000/TCP
-open_media_ports
+#port will be opened in install script
+#open-port 8080/TCP
+#open-port 5080/TCP
+#open-port 5082/TCP
+#open-port 5080/UDP
+#open-port 2000/TCP
+#open_media_ports
+
 exit 0

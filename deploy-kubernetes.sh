@@ -12,4 +12,4 @@ export JUJU_REPOSITORY=$PWD/charms
 
 #if in need for more power#
 juju set-constraints 'instance-type=m3.medium'
-juju-deployer -c kubernetes-bundle-simple.yaml
+juju-deployer -c bundle-kubernetes.yaml -c config-kubernetes.yaml bundle-kubernetes.yaml

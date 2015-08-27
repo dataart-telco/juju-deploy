@@ -1,7 +1,0 @@
-.bzr
-.bzrignore
-.coverage
-*.pyc
-Gemfile
-Gemfile*
-Guard*
